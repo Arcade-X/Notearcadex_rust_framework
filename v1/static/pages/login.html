@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/ws_functions.js"></script>
+</head>
+<body>
+    <div class="modal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <form id="login-form" onsubmit="sendLogin(document.getElementById('username').value); return false;">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <button type="submit">Send Code</button>
+            </form>
+
+            <div id="code-input" style="display:none;">
+                <label for="code">Enter Code:</label>
+                <input type="text" id="code" name="code" required>
+                <button onclick="verifyCode(document.getElementById('username').value, document.getElementById('code').value);">Verify Code</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

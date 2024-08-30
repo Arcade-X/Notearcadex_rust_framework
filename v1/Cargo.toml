@@ -1,13 +1,18 @@
 [package]
-name = "notarcadex"
+name = "web_rust_framework"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 actix-web = "4.0"
-actix-files = "0.6"
+actix = "0.13.0"  # Add this for actix
+actix-files = "0.6"  # Add this line
+actix-web-actors = "4.0.0"  # Add this for WebSocket actors
+rand = "0.8.4"  # Add this for random number generation
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sqlx = { version = "0.6", features = ["sqlite", "runtime-tokio-native-tls"] }
 tokio = { version = "1", features = ["full"] }
 dotenv = "0.15"
+bcrypt = "0.11"
+chrono = "0.4"  # Add this line for chrono
