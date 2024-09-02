@@ -3,7 +3,7 @@ use actix_web::{web, Error, HttpRequest, HttpResponse};
 use actix_web_actors::ws;
 use sqlx::SqlitePool;
 use serde_json::Value;
-use crate::login_handler::handle_login;
+use crate::login_handler::{handle_login, handle_token_verification, handle_projects_request};
 
 pub async fn login_ws_route(
     req: HttpRequest,
@@ -28,16 +28,27 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for LoginWebSocket {
             let pool_clone = self.pool.clone();
 
             if parsed_msg["action"] == "login" {
-                ctx.text("Processing login...");
-                
-                // Capture ctx by reference, avoiding move
                 let ctx_ref = ctx as *mut _; // Convert to raw pointer
                 let fut = async move {
                     let ctx_ref = unsafe { &mut *ctx_ref }; // Convert back to reference
                     handle_login(ctx_ref, parsed_msg, pool_clone).await;
                 };
                 fut.into_actor(self).spawn(ctx);
-            } 
+            } else if parsed_msg["action"] == "verify_token" {
+                let ctx_ref = ctx as *mut _; // Convert to raw pointer
+                let fut = async move {
+                    let ctx_ref = unsafe { &mut *ctx_ref }; // Convert back to reference
+                    handle_token_verification(ctx_ref, parsed_msg, pool_clone).await;
+                };
+                fut.into_actor(self).spawn(ctx);
+            } else if parsed_msg["action"] == "request_projects" {
+                let ctx_ref = ctx as *mut _; // Convert to raw pointer
+                let fut = async move {
+                    let ctx_ref = unsafe { &mut *ctx_ref }; // Convert back to reference
+                    handle_projects_request(ctx_ref, parsed_msg, pool_clone).await;
+                };
+                fut.into_actor(self).spawn(ctx);
+            }
         }
     }
 }
