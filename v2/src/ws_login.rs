@@ -3,7 +3,7 @@ use actix_web::{web, Error, HttpRequest, HttpResponse};
 use actix_web_actors::ws;
 use sqlx::SqlitePool;
 use serde_json::Value;
-use crate::login_handler::handle_login;
+use crate::login_handler::{handle_login, handle_code_verification};
 
 pub async fn login_ws_route(
     req: HttpRequest,
@@ -37,7 +37,16 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for LoginWebSocket {
                     handle_login(ctx_ref, parsed_msg, pool_clone).await;
                 };
                 fut.into_actor(self).spawn(ctx);
-            } 
+            } else if parsed_msg["action"] == "verify_code" {
+                ctx.text("Processing code verification...");
+                
+                let ctx_ref = ctx as *mut _; // Convert to raw pointer
+                let fut = async move {
+                    let ctx_ref = unsafe { &mut *ctx_ref }; // Convert back to reference
+                    handle_code_verification(ctx_ref, parsed_msg, pool_clone).await;
+                };
+                fut.into_actor(self).spawn(ctx);
+            }
         }
     }
 }
