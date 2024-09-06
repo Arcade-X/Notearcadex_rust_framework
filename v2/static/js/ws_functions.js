@@ -5,7 +5,7 @@ function connectWebSocket() {
     ws = new WebSocket("ws://127.0.0.1:8080/ws/login");
 
     ws.onopen = function () {
-        console.log("Connected to WebSocket");
+        console.log("WebSocket Connection Established");
         if (sessionToken) {
             // Verify token if already logged in
             ws.send(JSON.stringify({ action: "verify_token", token: sessionToken }));
@@ -22,8 +22,11 @@ function connectWebSocket() {
             } else if (data.status === "token_valid") {
                 ws.send(JSON.stringify({ action: "request_projects", token: sessionToken }));
             } else if (data.status === "projects_page") {
-                document.body.innerHTML = data.content; // This replaces the entire body content
-                history.pushState(null, "", "/projects"); // Update the URL to /projects
+                document.body.innerHTML = data.content;
+                history.pushState(null, "", "/projects");
+            } else if (data.status === "sandbox_page") {
+                document.body.innerHTML = data.content;
+                history.pushState(null, "", "/sandbox");
             } else if (data.status === "invalid_credentials") {
                 alert("Invalid username or password.");
             } else if (data.status === "user_not_found") {
@@ -37,22 +40,27 @@ function connectWebSocket() {
     };
 
     ws.onclose = function () {
-        setTimeout(connectWebSocket, 5000); // Reconnect after 5 seconds
+        setTimeout(connectWebSocket, 5000);
     };
 }
 
 function sendLogin(username, password) {
-    sessionToken = null; // Clear session token before sending login request
-    sessionStorage.removeItem("sessionToken"); // Clear session token from storage
     const data = JSON.stringify({ action: "login", username: username, password: password });
     ws.send(data);
 }
 
 function logout() {
-    sessionToken = null;
     sessionStorage.removeItem("sessionToken");
-    ws.close(); // Close WebSocket connection on logout
     window.location.href = "/login";
+}
+
+// Function to navigate to another page
+function navigateTo(page) {
+    if (ws && sessionToken) {
+        ws.send(JSON.stringify({ action: `request_${page}`, token: sessionToken }));
+    } else {
+        window.location.href = '/login';
+    }
 }
 
 window.onload = function () {

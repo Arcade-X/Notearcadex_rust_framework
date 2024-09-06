@@ -87,3 +87,30 @@ pub async fn handle_projects_request(
         }).to_string());
     }
 }
+
+pub async fn handle_sandbox_request(
+    ctx: &mut ws::WebsocketContext<super::ws_login::LoginWebSocket>,
+    msg: serde_json::Value,
+    pool: SqlitePool,
+) {
+    let token = msg["token"].as_str().unwrap_or("");
+
+    let user = sqlx::query!(
+        "SELECT id FROM users WHERE session_token = ? LIMIT 1",
+        token
+    )
+    .fetch_optional(&pool)
+    .await
+    .unwrap();
+
+    if user.is_some() {
+        ctx.text(json!({
+            "status": "sandbox_page",
+            "content": include_str!("../static/pages/sandbox.html")
+        }).to_string());
+    } else {
+        ctx.text(json!({
+            "status": "unauthorized"
+        }).to_string());
+    }
+}

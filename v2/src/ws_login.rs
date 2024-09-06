@@ -3,7 +3,7 @@ use actix_web::{web, Error, HttpRequest, HttpResponse};
 use actix_web_actors::ws;
 use sqlx::SqlitePool;
 use serde_json::Value;
-use crate::login_handler::{handle_login, handle_token_verification, handle_projects_request};
+use crate::login_handler::{handle_login, handle_token_verification, handle_projects_request, handle_sandbox_request};
 
 pub async fn login_ws_route(
     req: HttpRequest,
@@ -46,6 +46,13 @@ impl StreamHandler<Result<ws::Message, ws::ProtocolError>> for LoginWebSocket {
                 let fut = async move {
                     let ctx_ref = unsafe { &mut *ctx_ref }; // Convert back to reference
                     handle_projects_request(ctx_ref, parsed_msg, pool_clone).await;
+                };
+                fut.into_actor(self).spawn(ctx);
+            } else if parsed_msg["action"] == "request_sandbox" {  // Handle sandbox request
+                let ctx_ref = ctx as *mut _; // Convert to raw pointer
+                let fut = async move {
+                    let ctx_ref = unsafe { &mut *ctx_ref }; // Convert back to reference
+                    handle_sandbox_request(ctx_ref, parsed_msg, pool_clone).await;
                 };
                 fut.into_actor(self).spawn(ctx);
             }

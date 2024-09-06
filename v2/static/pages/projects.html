@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <div class="logo">Projects</div>
+        <div class="logo">Logo</div>
         <nav>
             <ul>
                 <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
@@ -17,9 +17,20 @@
         </nav>
     </header>
 
-    <div class="content">
-        <h1>My Projects</h1>
-        <p>Here is where you can list your projects...</p>
+   <div class="content">
+    <div class="grid-container">
+        <div class="grid-item" onclick="navigateTo('sandbox')">Sandbox</div>
+        <div class="grid-item">Trading</div>
+        <div class="grid-item">Mining</div>
+        <div class="grid-item">Coming Soon</div>
     </div>
+</div>
+
+<script>
+function navigateTo(page) {
+    ws.send(JSON.stringify({ action: `request_${page}`, token: sessionToken }));
+}
+</script>
+
 </body>
 </html>
