@@ -24,9 +24,11 @@ function connectWebSocket() {
             } else if (data.status === "projects_page") {
                 document.body.innerHTML = data.content;
                 history.pushState(null, "", "/projects");
+                window.reinitializePage(); // Call the global reinitializePage function
             } else if (data.status === "sandbox_page") {
                 document.body.innerHTML = data.content;
                 history.pushState(null, "", "/sandbox");
+                window.reinitializePage(); // Call the global reinitializePage function
             } else if (data.status === "invalid_credentials") {
                 alert("Invalid username or password.");
             } else if (data.status === "user_not_found") {
@@ -63,6 +65,3 @@ function navigateTo(page) {
     }
 }
 
-window.onload = function () {
-    connectWebSocket();
-};

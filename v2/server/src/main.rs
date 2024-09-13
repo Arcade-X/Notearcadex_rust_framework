@@ -39,6 +39,9 @@ async fn main() -> std::io::Result<()> {
     // Get the database URL from the environment variable
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
 
+    // Debugging: Print the database URL to verify
+    println!("Using database URL: {}", database_url);
+
     // Connect to the database and wrap it in web::Data
     let pool = SqlitePool::connect(&database_url).await.unwrap();
     let pool_data = web::Data::new(pool); // Wrap the pool in web::Data
@@ -50,13 +53,13 @@ async fn main() -> std::io::Result<()> {
 async fn index(_req: HttpRequest) -> HttpResponse {
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
-        .body(include_str!("../static/index.html"))
+        .body(include_str!("../../static/index.html"))
 }
 
 async fn login_page(_req: HttpRequest) -> HttpResponse {
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
-        .body(include_str!("../static/pages/login.html"))
+        .body(include_str!("../../static/pages/login.html"))
 }
 
 async fn projects_page(req: HttpRequest, pool: web::Data<SqlitePool>) -> HttpResponse {

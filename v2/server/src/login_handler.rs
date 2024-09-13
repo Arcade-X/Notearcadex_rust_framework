@@ -79,7 +79,7 @@ pub async fn handle_projects_request(
     if user.is_some() {
         ctx.text(json!({
             "status": "projects_page",
-            "content": include_str!("../static/pages/projects.html")
+            "content": include_str!("../../static/pages/projects.html")
         }).to_string());
     } else {
         ctx.text(json!({
@@ -106,7 +106,7 @@ pub async fn handle_sandbox_request(
     if user.is_some() {
         ctx.text(json!({
             "status": "sandbox_page",
-            "content": include_str!("../static/pages/sandbox.html")
+            "content": include_str!("../../static/pages/sandbox.html")
         }).to_string());
     } else {
         ctx.text(json!({

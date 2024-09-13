@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects</title>
     <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/main.js" type="module"></script>
     <script src="/static/js/ws_functions.js"></script>
 </head>
 <body>
@@ -25,7 +26,6 @@
         <div class="grid-item">Coming Soon</div>
     </div>
 </div>
-
 <script>
 function navigateTo(page) {
     ws.send(JSON.stringify({ action: `request_${page}`, token: sessionToken }));
