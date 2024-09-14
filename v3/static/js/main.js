@@ -1,28 +1,24 @@
-import init, { WebGPURenderer } from './pkg/your_wasm_package.js'; // Import the WASM module
+import { startGPU } from './webgpu.js'; // Import the WebGPU logic
 
-window.onload = async function () {
+// Initialize WebSocket connection on page load
+window.onload = function () {
     connectWebSocket(); // Connect WebSocket globally
-    await init(); // Initialize the WASM module
 };
 
-window.reinitializePage = async function () {
+window.reinitializePage = function () {
     const currentPath = window.location.pathname;
 
     if (currentPath === '/sandbox') {
         console.log('On sandbox page');
 
+        // Check if the sandbox canvas and button exist before proceeding
         const canvas = document.getElementById('sandbox-canvas');
         const startButton = document.getElementById('start-webgpu-btn');
 
         if (canvas && startButton) {
-            let renderer;
-
-            startButton.addEventListener('click', async function () {
+            startButton.addEventListener('click', function () {
                 console.log('Start WebGPU button clicked');
-                if (!renderer) {
-                    renderer = await WebGPURenderer.new('sandbox-canvas');
-                }
-                renderer.setup_scene(); // Call the scene setup function in Rust
+                startGPU(); // Start WebGPU when the button is clicked
             });
         } else {
             console.error('Canvas or start button not found!');
