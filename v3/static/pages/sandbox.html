@@ -6,7 +6,8 @@
     <title>Sandbox</title>
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/main.js" type="module"></script>
-    <script src="/static/js/ws_functions.js"></script>
+    <script src="/static/js/ws_functions.js" type="module"></script>
+    <script src="/static/js/app_initializer.js" type="module"></script>
 </head>
 <body>
     <header>
@@ -18,12 +19,14 @@
         </nav>
     </header>
 
-    <div class="content">
-        <!-- Canvas for WebGPU -->
-        <canvas id="sandbox-canvas" width="800" height="600"></canvas>
+    <div id="threejs-container"></div>
 
-        <!-- Button to start WebGPU -->
-        <button id="start-webgpu-btn">Start WebGPU</button>
-    </div>
+    <!-- Include Three.js and related files only on the sandbox page -->
+    <script src="/static/js/three_modules/three.min.js" type="module"></script>
+    <script src="/static/js/three_modules/GLTFLoader.js" type="module"></script>
+    <script src="/static/js/three_modules/EXRLoader.js" type="module"></script>
+    <script src="/static/js/three_modules/RGBELoader.js" type="module"></script>
+    <script src="/static/js/three_modules/OrbitControls.js" type="module"></script>
+
 </body>
 </html>

@@ -53,13 +53,13 @@ async fn main() -> std::io::Result<()> {
 async fn index(_req: HttpRequest) -> HttpResponse {
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
-        .body(include_str!("../../static/index.html"))
+        .body(include_str!("../static/index.html"))
 }
 
 async fn login_page(_req: HttpRequest) -> HttpResponse {
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
-        .body(include_str!("../../static/pages/login.html"))
+        .body(include_str!("../static/pages/login.html"))
 }
 
 async fn projects_page(req: HttpRequest, pool: web::Data<SqlitePool>) -> HttpResponse {

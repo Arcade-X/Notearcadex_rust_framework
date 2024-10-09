@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <script src="/static/js/main.js" type="module"></script>
-    <script src="/static/js/ws_functions.js"></script>
 </head>
 <body>
     <div class="modal">
         <div class="modal-content">
             <h2>Login</h2>
-            <form id="login-form" onsubmit="sendLogin(document.getElementById('username').value, document.getElementById('password').value); return false;">
+            <form id="login-form">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
                 <label for="password">Password:</label>
@@ -21,5 +19,21 @@
             </form>
         </div>
     </div>
+
+    <!-- Attach form event listener to call sendLogin -->
+    <script type="module">
+        import { sendLogin, connectWebSocket } from '/static/js/ws_functions.js';
+        
+        // Connect WebSocket when the page loads
+        connectWebSocket();
+
+        // Attach event listener to the login form
+        document.getElementById('login-form').onsubmit = function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            sendLogin(username, password);
+        };
+    </script>
 </body>
 </html>
