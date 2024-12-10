@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/main.js" type="module"></script>
+    <script src="/static/js/ws_functions.js" type="module"></script>
+    <script src="/static/js/app_initializer.js" type="module"></script>
+</head>
+<body>
+    <header>
+        <div class="logo">Sandbox</div>
+        <nav>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="threejs-container"></div>
+
+    <!-- Include Three.js and related files only on the sandbox page -->
+    <script src="/static/js/three_modules/three.min.js" type="module"></script>
+    <script src="/static/js/three_modules/GLTFLoader.js" type="module"></script>
+    <script src="/static/js/three_modules/EXRLoader.js" type="module"></script>
+    <script src="/static/js/three_modules/RGBELoader.js" type="module"></script>
+    <script src="/static/js/three_modules/OrbitControls.js" type="module"></script>
+
+</body>
+</html>

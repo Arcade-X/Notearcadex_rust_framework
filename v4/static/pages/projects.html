@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script type="module">
+        import { connectWebSocket } from './static/js/ws_functions.js';
+
+        // Initialize WebSocket when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            connectWebSocket(); // Ensure WebSocket connection is established
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <div class="grid-container">
+            <div class="grid-item" onclick="navigateTo('sandbox')">Sandbox</div>
+            <div class="grid-item">Trading</div>
+            <div class="grid-item">Mining</div>
+            <div class="grid-item">Coming Soon</div>
+        </div>
+    </div>
+</body>
+</html>
